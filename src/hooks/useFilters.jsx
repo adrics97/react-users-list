@@ -16,10 +16,17 @@ function useFilters() {
   }
 
   const setOnlyActive = (onlyActive) => {
-    setFilters({
+    if (onlyActive && filters.sortBy === 3)    setFilters({
       ...filters,
+      sortBy: 0,
       onlyActive,
-    });
+    })
+    else{
+      setFilters({
+        ...filters,
+        onlyActive,
+      });
+    }
   }
 
   const setSortBy = (sortBy) => {
