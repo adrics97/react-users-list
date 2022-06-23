@@ -1,3 +1,4 @@
+import { SORT_OPTIONS } from './constants/sortOptions'
 import InputCheckbox from './forms/InputCheckbox'
 import InputSearch from './forms/InputSearch'
 import Select from './forms/Select'
@@ -8,10 +9,10 @@ function UsersListFilters({search, setSearch, onlyActive, setOnlyActive, sortBy,
       <div className={style.row}>
         <InputSearch placeholder='Buscar...' value={search} onChange={evt => setSearch(evt.target.value)}/>
         <Select value={sortBy} onChange={evt => setSortBy(Number(evt.target.value))}>
-          <option value={0}>Por defecto</option>
-          <option value={1}>Por nombre</option>
-          <option value={2}>Por rol</option>
-          {!onlyActive && <option value={3}>Por activos</option>}
+          <option value={SORT_OPTIONS.DEFAULT}>Por defecto</option>
+          <option value={SORT_OPTIONS.NAME}>Por nombre</option>
+          <option value={SORT_OPTIONS.ROLE}>Por rol</option>
+          {!onlyActive && <option value={SORT_OPTIONS.ACTIVE}>Por activos</option>}
         </Select>
       </div>
       <div className={style.row}>

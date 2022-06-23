@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { SORT_OPTIONS } from "../components/constants/sortOptions";
 
 function useFilters() {
 
   const [filters, setFilters] = useState({
     search: '',
     onlyActive: false,
-    sortBy: 0,
+    sortBy: SORT_OPTIONS.DEFAULT,
   });
 
   const setSearch = (search) => {
@@ -16,17 +17,12 @@ function useFilters() {
   }
 
   const setOnlyActive = (onlyActive) => {
-    if (onlyActive && filters.sortBy === 3)    setFilters({
+    const newSortBy = (onlyActive && filters.sortBy === SORT_OPTIONS.ACTIVE) ? SORT_OPTIONS.DEFAULT : filters.sortBy
+    setFilters({
       ...filters,
-      sortBy: 0,
+      sortBy: newSortBy,
       onlyActive,
-    })
-    else{
-      setFilters({
-        ...filters,
-        onlyActive,
-      });
-    }
+    });
   }
 
   const setSortBy = (sortBy) => {
