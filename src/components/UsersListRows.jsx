@@ -1,10 +1,11 @@
-import UserRow from "./UserRow";
+import UserRow from './UserRow';
 
-function UsersListRows({users}) {
-  if (!users.length) return <p>No hay usuarios</p>;
+function UsersListRows({ users, error, loading }) {
+	if (loading) return <p> Cargando usuarios...</p>;
+	if (error) return <p>Error al cargar los usuarios</p>;
+	if (!users.length) return <p>No hay usuarios</p>;
 
-  return users.map(user => (<UserRow key={user.username} {...user}/>));
-   
+	return users.map(user => <UserRow key={user.id} {...user} />);
 }
 
-export default UsersListRows
+export default UsersListRows;

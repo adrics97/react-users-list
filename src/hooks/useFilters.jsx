@@ -7,7 +7,7 @@ function useFilters() {
 		onlyActive: false,
 		sortBy: SORT_OPTIONS.DEFAULT,
 		page: 1,
-		itemsPerPage: 2
+		itemsPerPage: 6
 	});
 
 	const setSearch = search => {
@@ -34,6 +34,7 @@ function useFilters() {
 	const setSortBy = sortBy => {
 		setFilters({
 			...filters,
+			page: 1,
 			sortBy
 		});
 	};
@@ -45,13 +46,13 @@ function useFilters() {
 		});
 	};
 
-	const setItemsPerPage = newItemsPerPage =>
+	const setItemsPerPage = newItemsPerPage => {
 		setFilters({
 			...filters,
-			setSearch,
-			setOnlyActive,
-			setSortBy
+			page: 1,
+			itemsPerPage: newItemsPerPage
 		});
+	};
 
 	return {
 		filters,
