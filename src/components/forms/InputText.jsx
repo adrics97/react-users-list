@@ -6,7 +6,7 @@ function InputText({ label, error, className, ...props }) {
 			<span className={style.label}>{label}</span>
 			<input
 				type='text'
-				className={`${style.input} ${style.error ? style.borderError : ''}`}
+				className={`${style.input} ${error ? style.borderError : ''}`}
 				{...props}
 			></input>
 			{error && <span className={style.error}>{error}</span>}

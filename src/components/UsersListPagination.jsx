@@ -1,7 +1,5 @@
-import IconButton from './buttons/IconButton';
 import PageSelector from './forms/PageSelector';
 import Select from './forms/Select';
-import SearchIcon from './icons/SearchIcon';
 import style from './UsersListPagination.module.css';
 
 function UsersListPagination({
@@ -24,7 +22,6 @@ function UsersListPagination({
 				</Select>
 				<p> Elementos por página </p>
 			</div>
-			<IconButton kind='red' icon={SearchIcon} />
 			<PageSelector page={page} totalPages={totalPages} setPage={setPage} />
 		</div>
 	);

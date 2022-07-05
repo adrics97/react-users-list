@@ -167,6 +167,13 @@
 			"name": "Mollie Finker",
 			"active": true,
 			"role": "student"
+		},
+		{
+			"name": "Adrián Sanchis",
+			"username": "adrics97",
+			"role": "teacher",
+			"active": false,
+			"id": "OpXTCBV"
 		}
 	]
 }
