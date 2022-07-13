@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { SORT_OPTIONS } from '../components/constants/sortOptions';
 
-function useFilters() {
-	const [filters, setFilters] = useState({
-		search: '',
-		onlyActive: false,
-		sortBy: SORT_OPTIONS.DEFAULT,
-		page: 1,
-		itemsPerPage: 6
-	});
+const INITIAL_STATE = {
+	search: '',
+	onlyActive: false,
+	sortBy: SORT_OPTIONS.DEFAULT,
+	page: 1,
+	itemsPerPage: 6
+};
+
+const useFilters = () => {
+	const [filters, setFilters] = useState(INITIAL_STATE);
 
 	const setSearch = search => {
 		setFilters({
@@ -54,14 +56,33 @@ function useFilters() {
 		});
 	};
 
-	return {
-		filters,
-		setSearch,
-		setOnlyActive,
-		setSortBy,
-		setPage,
-		setItemsPerPage
+	const resetFilters = () => {
+		setFilters(INITIAL_STATE);
 	};
-}
+
+	const { search, onlyActive, sortBy, page, itemsPerPage } = filters;
+
+	return {
+		filters: {
+			search,
+			onlyActive,
+			sortBy
+		},
+		pagination: {
+			page,
+			itemsPerPage
+		},
+		filtersSetters: {
+			setSearch,
+			setOnlyActive,
+			setSortBy
+		},
+		paginationSetters: {
+			setPage,
+			setItemsPerPage
+		},
+		resetFilters
+	};
+};
 
 export default useFilters;

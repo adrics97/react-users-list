@@ -8,49 +8,81 @@ import { useState } from 'react';
 import { USER_FORMS } from './constants/useForms';
 import Button from './buttons/Button';
 import UserCreateForm from './user-forms/UserCreateForm';
-import { useCreateForm } from '../hooks/useCreateForm';
+import {
+	filtersUsersByActive,
+	filtersUsersByName,
+	paginateUsers,
+	sortUsers
+} from '../lib/users/filterUsers';
 
 function UsersList() {
 	const { currentForm, setFiltersForm, setCreateForm } = useForm();
 	const {
 		filters,
-		setSearch,
-		setOnlyActive,
-		setSortBy,
-		setPage,
-		setItemsPerPage
+		filtersSetters,
+		pagination,
+		paginationSetters,
+		resetFilters
 	} = useFilters();
 
-	const { users, totalPages, error, loading } = useUsers(filters);
+	const { users, usersError, usersLoading, reloadUsers } = useUsers();
+	const { paginatedUsers, totalPages } = getUsersToDisplay(
+		users,
+		filters,
+		pagination
+	);
 
+	const onSuccess = () => {
+		reloadUsers();
+		resetFilters();
+		setFiltersForm();
+	};
 	return (
 		<div className={style.wrapper}>
 			<h1 className={style.title}>Listado de usuarios</h1>
 
 			{currentForm === USER_FORMS.FILTERS ? (
 				<UsersListFilters
-					search={filters.search}
-					onlyActive={filters.onlyActive}
-					sortBy={filters.sortBy}
-					setSearch={setSearch}
-					setOnlyActive={setOnlyActive}
-					setSortBy={setSortBy}
+					{...filters}
+					{...filtersSetters}
 					slot={<Button onClick={setCreateForm}>Añadir usuarios</Button>}
 				/>
 			) : (
-				<UserCreateForm onClose={setFiltersForm} />
+				<UserFormLayout onClose={setFiltersForm}>
+					<UserCreateForm onSuccess={onSuccess} />
+				</UserFormLayout>
 			)}
-			<UsersListRows users={users} error={error} loading={loading} />
+			<UsersListRows
+				users={paginatedUsers}
+				error={usersError}
+				loading={usersLoading}
+			/>
 			<UsersListPagination
-				page={filters.page}
-				itemsPerPage={filters.itemsPerPage}
-				setPage={setPage}
-				setItemsPerPage={setItemsPerPage}
+				{...pagination}
+				{...paginationSetters}
 				totalPages={totalPages}
 			/>
 		</div>
 	);
 }
+
+const getUsersToDisplay = (
+	users,
+	{ onlyActive, search, sortBy },
+	{ page, itemsPerPage }
+) => {
+	let usersFiltered = filtersUsersByActive(users, onlyActive);
+	usersFiltered = filtersUsersByName(usersFiltered, search);
+	usersFiltered = sortUsers(usersFiltered, sortBy);
+
+	const { paginatedUsers, totalPages } = paginateUsers(
+		usersFiltered,
+		page,
+		itemsPerPage
+	);
+
+	return { paginatedUsers, totalPages };
+};
 
 const useForm = () => {
 	const [currentForm, setCurrentForm] = useState(USER_FORMS.FILTERS);
