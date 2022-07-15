@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useCreateForm } from '../../hooks/useCreateForm';
-import { createUser } from '../../lib/api/usersApi';
+import { useEditForm } from '../../hooks/useEditForm';
+import { updateUser } from '../../lib/api/usersApi';
 import Button from '../buttons/Button';
 import IconButton from '../buttons/IconButton';
 import { USER_ROLES } from '../constants/userRoles';
@@ -9,28 +9,37 @@ import InputText from '../forms/InputText';
 import InputTextAsync from '../forms/InputTextAsync';
 import Select from '../forms/Select';
 import CrossIcon from '../icons/CrossIcon';
-import style from './UserCreateForm.module.css';
+import style from './UserEditForm.module.css';
 import UserFormLayout from './UserFormLayout';
 
-function UserCreateForm({ onSuccess }) {
+function UserEditForm({ onSuccess, user }) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { username, name, setUsername, setName, isFormInvalid } =
-		useCreateForm();
+	const {
+		username,
+		name,
+		role,
+		active,
+		setUsername,
+		setName,
+		setRole,
+		setActive,
+		isFormInvalid
+	} = useEditForm(user);
 
 	const handleSubmit = async evt => {
 		evt.preventDefault();
 
 		setIsSubmitting(true);
 
-		const user = {
-			id: crypto.randomUUID,
+		const editUser = {
+			id: user.id,
 			name: name.value,
 			username: username.value,
-			role: evt.target.role.value,
-			active: evt.target.active.checked
+			role,
+			active
 		};
 
-		const success = await createUser(user);
+		const success = await updateUser(editUser);
 		if (success) {
 			onSuccess();
 		} else {
@@ -53,7 +62,11 @@ function UserCreateForm({ onSuccess }) {
 					className={style.input}
 					label='Username'
 					placeholder='jonhdoe'
-					success={username.value && !username.loading && !username.error}
+					success={
+						username.value !== user.username &&
+						!username.loading &&
+						!username.error
+					}
 					error={username.error}
 					loading={username.loading}
 					value={username.value}
@@ -61,20 +74,23 @@ function UserCreateForm({ onSuccess }) {
 				></InputTextAsync>
 			</div>
 			<div className={style.row}>
-				<Select name='role'>
+				<Select value={role} onChange={evt => setRole(evt.target.value)}>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
 					<option value={USER_ROLES.STUDENT}>Alumno</option>
 					<option value={USER_ROLES.OTHER}>Otro</option>
 				</Select>
 				<div className={style.active}>
-					<InputCheckbox name='active' />
+					<InputCheckbox
+						checked={active}
+						onChange={evt => setActive(evt.target.checked)}
+					/>
 					<span>¿Activo?</span>
 				</div>
 				<Button type='submit' disabled={isFormInvalid || isSubmitting}>
-					{isSubmitting ? 'Cargando...' : 'Crear usuario'}
+					{isSubmitting ? 'Cargando...' : 'Editar usuario'}
 				</Button>
 			</div>
 		</form>
 	);
 }
-export default UserCreateForm;
+export default UserEditForm;
