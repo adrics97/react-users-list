@@ -49,7 +49,7 @@ export const useEditForm = user => {
 		}));
 
 	useEffect(() => {
-		setFormValues(getInitialState());
+		setFormValues(getInitialState(user));
 	}, [user]);
 
 	useEffect(() => {

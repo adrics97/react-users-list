@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react';
 import { findAllUsers } from '../lib/api/usersApi';
-import {
-	filtersUsersByActive,
-	filtersUsersByName,
-	paginateUsers,
-	sortUsers
-} from '../lib/users/filterUsers';
 
 const useUsers = () => {
 	const [users, setUsers] = useState({

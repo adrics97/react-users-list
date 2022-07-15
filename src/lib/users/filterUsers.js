@@ -1,7 +1,7 @@
 import { SORT_OPTIONS } from '../../components/constants/sortOptions';
 import { USER_ROLES } from '../../components/constants/userRoles';
 
-export const filtersUsersByName = (users, search) => {
+const filtersUsersByName = (users, search) => {
 	if (!search) {
 		return users;
 	}
@@ -10,14 +10,14 @@ export const filtersUsersByName = (users, search) => {
 	);
 };
 
-export const filtersUsersByActive = (users, onlyActive) => {
+const filtersUsersByActive = (users, onlyActive) => {
 	if (!onlyActive) {
 		return users;
 	}
 	return users?.filter(user => user.active);
 };
 
-export const sortUsers = (users, sortBy) => {
+const sortUsers = (users, sortBy) => {
 	const sortedUsers = [...users];
 
 	switch (sortBy) {
@@ -46,11 +46,29 @@ export const sortUsers = (users, sortBy) => {
 	}
 };
 
-export const paginateUsers = (users, page, itemsPerPage) => {
+const paginateUsers = (users, page, itemsPerPage) => {
 	const startIndex = (page - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
 	const totalPages = Math.ceil(users.length / itemsPerPage);
 
 	const paginatedUsers = users.slice(startIndex, endIndex);
+	return { paginatedUsers, totalPages };
+};
+
+export const getUsersToDisplay = (
+	users,
+	{ onlyActive, search, sortBy },
+	{ page, itemsPerPage }
+) => {
+	let usersFiltered = filtersUsersByActive(users, onlyActive);
+	usersFiltered = filtersUsersByName(usersFiltered, search);
+	usersFiltered = sortUsers(usersFiltered, sortBy);
+
+	const { paginatedUsers, totalPages } = paginateUsers(
+		usersFiltered,
+		page,
+		itemsPerPage
+	);
+
 	return { paginatedUsers, totalPages };
 };

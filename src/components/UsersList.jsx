@@ -4,29 +4,13 @@ import UsersListRows from './UsersListRows';
 import style from './UsersList.module.css';
 import UsersListPagination from './UsersListPagination';
 import useUsers from '../hooks/useUsers';
-import { useState } from 'react';
-import { USER_FORMS } from './constants/useForms';
-import Button from './buttons/Button';
-import UserCreateForm from './user-forms/UserCreateForm';
-import {
-	filtersUsersByActive,
-	filtersUsersByName,
-	paginateUsers,
-	sortUsers
-} from '../lib/users/filterUsers';
-import UserFormLayout from './user-forms/UserFormLayout';
-import UserEditForm from './user-forms/UserEditForm';
-import UserDeleteForm from './user-forms/UserDeleteForm';
+import { getUsersToDisplay } from '../lib/users/filterUsers';
+import { useSelectedForm } from '../hooks/useSelectedForm';
+import { UserFormsContext } from '../lib/contexts/UsersFormContext';
+import UserFormContainer from './user-forms/UserFormContainer';
+import UserFormProvider from './providers/UserFormProvider';
 
 function UsersList() {
-	const {
-		currentForm,
-		currentUser,
-		setFiltersForm,
-		setCreateForm,
-		setEditForm,
-		setDeleteForm
-	} = useForm();
 	const {
 		filters,
 		filtersSetters,
@@ -42,45 +26,19 @@ function UsersList() {
 		pagination
 	);
 
-	const onSuccess = () => {
-		reloadUsers();
-		resetFilters();
-		setFiltersForm();
-	};
 	return (
 		<div className={style.wrapper}>
 			<h1 className={style.title}>Listado de usuarios</h1>
+			<UserFormProvider reloadUsers={reloadUsers} resetFilters={resetFilters}>
+				<UsersListFilters {...filters} {...filtersSetters} />
+				<UserFormContainer />
 
-			{currentForm === USER_FORMS.FILTERS ? (
-				<UsersListFilters
-					{...filters}
-					{...filtersSetters}
-					slot={<Button onClick={setCreateForm}>Añadir usuarios</Button>}
+				<UsersListRows
+					users={paginatedUsers}
+					error={usersError}
+					loading={usersLoading}
 				/>
-			) : (
-				<UserFormLayout onClose={setFiltersForm}>
-					{currentForm === USER_FORMS.CREATE && (
-						<UserCreateForm onSuccess={onSuccess} />
-					)}
-					{currentForm === USER_FORMS.EDIT && (
-						<UserEditForm onSuccess={onSuccess} user={currentUser} />
-					)}
-					{currentForm === USER_FORMS.DELETE && (
-						<UserDeleteForm
-							onSuccess={onSuccess}
-							onCancel={setFiltersForm}
-							user={currentUser}
-						/>
-					)}
-				</UserFormLayout>
-			)}
-			<UsersListRows
-				users={paginatedUsers}
-				error={usersError}
-				loading={usersLoading}
-				setEditForm={setEditForm}
-				setDeleteForm={setDeleteForm}
-			/>
+			</UserFormProvider>
 			<UsersListPagination
 				{...pagination}
 				{...paginationSetters}
@@ -89,42 +47,5 @@ function UsersList() {
 		</div>
 	);
 }
-
-const getUsersToDisplay = (
-	users,
-	{ onlyActive, search, sortBy },
-	{ page, itemsPerPage }
-) => {
-	let usersFiltered = filtersUsersByActive(users, onlyActive);
-	usersFiltered = filtersUsersByName(usersFiltered, search);
-	usersFiltered = sortUsers(usersFiltered, sortBy);
-
-	const { paginatedUsers, totalPages } = paginateUsers(
-		usersFiltered,
-		page,
-		itemsPerPage
-	);
-
-	return { paginatedUsers, totalPages };
-};
-
-const useForm = () => {
-	const [currentForm, setCurrentForm] = useState({ form: USER_FORMS.FILTERS });
-
-	const setFiltersForm = () => setCurrentForm({ form: USER_FORMS.FILTERS });
-	const setCreateForm = () => setCurrentForm({ form: USER_FORMS.CREATE });
-	const setEditForm = user => setCurrentForm({ form: USER_FORMS.EDIT, user });
-	const setDeleteForm = user =>
-		setCurrentForm({ form: USER_FORMS.DELETE, user });
-
-	return {
-		currentForm: currentForm.form,
-		currentUser: currentForm.user,
-		setFiltersForm,
-		setCreateForm,
-		setEditForm,
-		setDeleteForm
-	};
-};
 
 export default UsersList;

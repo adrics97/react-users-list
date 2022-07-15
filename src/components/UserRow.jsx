@@ -5,16 +5,11 @@ import UserDisplay from './UserDisplay';
 import IconButton from './buttons/IconButton';
 import PencilIcon from './icons/PencilIcon';
 import TrashIcon from './icons/TrashIcon';
+import { useContext } from 'react';
+import { UserFormsContext } from '../lib/contexts/UsersFormContext';
 
-function UserRow({
-	id,
-	username,
-	name,
-	active,
-	role,
-	setEditForm,
-	setDeleteForm
-}) {
+function UserRow({ id, username, name, active, role }) {
+	const { setEditForm, setDeleteForm } = useContext(UserFormsContext);
 	return (
 		<div className={style.wrapper}>
 			<div className={style.name}>
