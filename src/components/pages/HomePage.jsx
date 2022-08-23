@@ -1,5 +1,5 @@
 import React from 'react';
-import UsersList from '../UsersList';
+import UsersList from '../users-list/UsersList';
 
 function HomePage() {
 	return <UsersList />;

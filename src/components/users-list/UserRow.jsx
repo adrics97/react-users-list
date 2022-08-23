@@ -1,12 +1,12 @@
-import UserStatus from './UserStatus';
-import UserRole from './UserRole';
+import UserStatus from '../user/UserStatus';
+import UserRole from '../user/UserRole';
 import style from './UserRow.module.css';
-import UserDisplay from './UserDisplay';
-import IconButton from './buttons/IconButton';
-import PencilIcon from './icons/PencilIcon';
-import TrashIcon from './icons/TrashIcon';
+import UserDisplay from '../user/UserDisplay';
+import IconButton from '../buttons/IconButton';
+import PencilIcon from '../icons/PencilIcon';
+import TrashIcon from '../icons/TrashIcon';
 import { useContext } from 'react';
-import { UserFormsContext } from '../lib/contexts/UsersFormContext';
+import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
 
 function UserRow({ id, username, name, active, role }) {
 	const { setEditForm, setDeleteForm } = useContext(UserFormsContext);
