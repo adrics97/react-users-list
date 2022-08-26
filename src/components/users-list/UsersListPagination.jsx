@@ -7,7 +7,7 @@ function UsersListPagination({
 	itemsPerPage,
 	setPage,
 	setItemsPerPage,
-	totalPages
+	totalUsers
 }) {
 	return (
 		<div className={style.wrapper}>
@@ -22,7 +22,11 @@ function UsersListPagination({
 				</Select>
 				<p> Elementos por página </p>
 			</div>
-			<PageSelector page={page} totalPages={totalPages} setPage={setPage} />
+			<PageSelector
+				page={page}
+				totalPages={Math.ceil(totalUsers / itemsPerPage)}
+				setPage={setPage}
+			/>
 		</div>
 	);
 }

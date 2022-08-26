@@ -2,11 +2,10 @@ import React from 'react';
 import { useSelectedForm } from '../../hooks/useSelectedForm';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
 
-function UserFormProvider({ reloadUsers, resetFilters, children }) {
+function UserFormProvider({ resetFilters, children }) {
 	const { setFiltersForm, ...restSelectedForm } = useSelectedForm();
 
 	const onSuccess = () => {
-		reloadUsers();
 		resetFilters();
 		setFiltersForm();
 	};

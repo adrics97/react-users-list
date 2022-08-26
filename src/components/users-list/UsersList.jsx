@@ -4,48 +4,43 @@ import UsersListRows from './UsersListRows';
 import style from './UsersList.module.css';
 import UsersListPagination from './UsersListPagination';
 import useUsers from '../../hooks/useUsers';
-import { getUsersToDisplay } from '../../lib/users/filterUsers';
 import UserFormContainer from '../user-forms/UserFormContainer';
 import UserFormProvider from '../providers/UserFormProvider';
 import { useState } from 'react';
 import UsersListViewSelector from '../users-list/UsersListViewSelector';
 
 function UsersList() {
-	const {
-		filters,
-		filtersSetters,
-		pagination,
-		paginationSetters,
-		resetFilters
-	} = useFilters();
+	const { filters, filtersSetters, paginationSetters, resetFilters } =
+		useFilters();
 
 	const [view, setView] = useState(true);
-	const { users, usersError, usersLoading, reloadUsers } = useUsers();
-	const { paginatedUsers, totalPages } = getUsersToDisplay(
-		users,
-		filters,
-		pagination
-	);
+	const { users, usersCount, usersError, usersLoading } = useUsers(filters);
 
 	return (
 		<div className={style.wrapper}>
 			<h1 className={style.title}>Listado de usuarios</h1>
-			<UserFormProvider reloadUsers={reloadUsers} resetFilters={resetFilters}>
-				<UsersListFilters {...filters} {...filtersSetters} />
-				<UsersListViewSelector view={view} setView={setView} />
+			<UserFormProvider resetFilters={resetFilters}>
+				<UsersListFilters
+					search={filters.search}
+					onlyActive={filters.onlyActive}
+					sortBy={filters.sortBy}
+					{...filtersSetters}
+				/>
 				<UserFormContainer />
+				<UsersListViewSelector view={view} setView={setView} />
 
 				<UsersListRows
-					users={paginatedUsers}
+					users={users}
 					error={usersError}
 					loading={usersLoading}
 					view={view}
 				/>
 			</UserFormProvider>
 			<UsersListPagination
-				{...pagination}
+				page={filters.page}
+				itemsPerPage={filters.itemsPerPage}
 				{...paginationSetters}
-				totalPages={totalPages}
+				totalUsers={usersCount}
 			/>
 		</div>
 	);
