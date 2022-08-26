@@ -13,8 +13,8 @@ function UsersList() {
 	const { filters, filtersSetters, paginationSetters, resetFilters } =
 		useFilters();
 
-	const [view, setView] = useState(true);
-	const { users, usersCount, usersError, usersLoading } = useUsers(filters);
+	const [showRowsFormat, setShowRowsFormat] = useState(true);
+	const { users, totalUsers, usersError, usersLoading } = useUsers(filters);
 
 	return (
 		<div className={style.wrapper}>
@@ -27,20 +27,23 @@ function UsersList() {
 					{...filtersSetters}
 				/>
 				<UserFormContainer />
-				<UsersListViewSelector view={view} setView={setView} />
+				<UsersListViewSelector
+					showRowsFormat={showRowsFormat}
+					setShowRowsFormat={setShowRowsFormat}
+				/>
 
 				<UsersListRows
 					users={users}
 					error={usersError}
 					loading={usersLoading}
-					view={view}
+					showRowsFormat={showRowsFormat}
 				/>
 			</UserFormProvider>
 			<UsersListPagination
 				page={filters.page}
 				itemsPerPage={filters.itemsPerPage}
 				{...paginationSetters}
-				totalUsers={usersCount}
+				totalUsers={totalUsers}
 			/>
 		</div>
 	);

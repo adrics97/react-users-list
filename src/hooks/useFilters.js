@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { PAGINATION } from '../components/constants/pagination';
 import { SORT_OPTIONS } from '../components/constants/sortOptions';
 
 const INITIAL_STATE = {
 	search: '',
 	onlyActive: false,
 	sortBy: SORT_OPTIONS.DEFAULT,
-	page: 1,
-	itemsPerPage: 6
+	page: PAGINATION.DEFAULT_PAGE,
+	itemsPerPage: PAGINATION.DEFAULT_ITEM_PER_PAGE
 };
 
 const useFilters = () => {

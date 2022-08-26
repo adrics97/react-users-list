@@ -1,0 +1,5 @@
+export const PAGINATION = {
+	DEFAULT_PAGE: 1,
+	DEFAULT_ITEM_PER_PAGE: 6,
+	ITEMS_PER_PAGE: [4, 6, 8]
+};
