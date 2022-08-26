@@ -13,7 +13,7 @@ module.exports = {
 		'plugin:react/jsx-runtime',
 		'plugin:react-hooks/recommended',
 		'standard',
-		'eslint-config-prettier'
+		'prettier'
 	],
 	parserOptions: {
 		ecmaFeatures: {
@@ -26,7 +26,6 @@ module.exports = {
 	rules: {
 		'react/prop-types': 'off',
 		'no-use-before-define': 'error',
-		'react/prop-types': 'off',
 		'func-names': ['error', 'as-needed'],
 		'vars-on-top': 'off',
 

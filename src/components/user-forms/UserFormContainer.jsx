@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
 import IconButton from '../buttons/IconButton';
 import { USER_FORMS } from '../constants/useForms';

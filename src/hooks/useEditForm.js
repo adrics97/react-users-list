@@ -9,7 +9,7 @@ export const useEditForm = user => {
 		const error = validateName(newName);
 		setFormValues({
 			...formValues,
-			name: { value: newName, error: error }
+			name: { value: newName, error }
 		});
 	};
 
@@ -21,7 +21,7 @@ export const useEditForm = user => {
 			username: {
 				value: newUsername,
 				loading: !error && !isInitial,
-				error: error
+				error
 			}
 		});
 	};
@@ -43,7 +43,7 @@ export const useEditForm = user => {
 			...prevFormValues,
 			username: {
 				value: prevFormValues.username.value,
-				error: error,
+				error,
 				loading: false
 			}
 		}));

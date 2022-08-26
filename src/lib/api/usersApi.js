@@ -67,10 +67,10 @@ export const findAllUsers = async (signal, filters) => {
 	const url = getFindAllUrl(filters);
 	try {
 		const res = await fetch(url, { signal });
-		let users = undefined;
+		let users;
 		if (res.ok) users = await res.json();
 		return {
-			users: users,
+			users,
 			count: res.ok ? res.headers.get('x-total-count') : 0,
 			error: !res.ok,
 			aborted: false

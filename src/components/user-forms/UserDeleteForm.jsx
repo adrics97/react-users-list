@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { deleteUserById, updateUser } from '../../lib/api/usersApi';
+import { deleteUserById } from '../../lib/api/usersApi';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
 import Button from '../buttons/Button';
 import style from './UserDeleteForm.module.css';

@@ -19,7 +19,7 @@ export const useCreateForm = () => {
 		const error = validateName(newName);
 		setFormValues({
 			...formValues,
-			name: { value: newName, error: error }
+			name: { value: newName, error }
 		});
 	};
 
@@ -27,7 +27,7 @@ export const useCreateForm = () => {
 		const error = validateUsername(newUsername);
 		setFormValues({
 			...formValues,
-			username: { value: newUsername, loading: !error, error: error }
+			username: { value: newUsername, loading: !error, error }
 		});
 	};
 
@@ -36,7 +36,7 @@ export const useCreateForm = () => {
 			...prevFormValues,
 			username: {
 				value: prevFormValues.username.value,
-				error: error,
+				error,
 				loading: false
 			}
 		}));
