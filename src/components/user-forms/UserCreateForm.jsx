@@ -13,8 +13,7 @@ import style from './UserCreateForm.module.css';
 function UserCreateForm() {
 	const { onSuccess } = useContext(UserFormsContext);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { username, name, setUsername, setName, isFormInvalid } =
-		useCreateForm();
+	const { username, name, dispatchFormValues, isFormInvalid } = useCreateForm();
 
 	const handleSubmit = async evt => {
 		evt.preventDefault();
@@ -46,7 +45,12 @@ function UserCreateForm() {
 					placeholder='John Doe'
 					error={name.error}
 					value={name.value}
-					onChange={evt => setName(evt.target.value)}
+					onChange={evt =>
+						dispatchFormValues({
+							type: 'name_changed',
+							value: evt.target.value
+						})
+					}
 				></InputText>
 				<InputTextAsync
 					className={style.input}
@@ -56,7 +60,12 @@ function UserCreateForm() {
 					error={username.error}
 					loading={username.loading}
 					value={username.value}
-					onChange={evt => setUsername(evt.target.value)}
+					onChange={evt =>
+						dispatchFormValues({
+							type: 'username_changed',
+							value: evt.target.value
+						})
+					}
 				></InputTextAsync>
 			</div>
 			<div className={style.row}>

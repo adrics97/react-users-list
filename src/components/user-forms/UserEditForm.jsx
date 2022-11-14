@@ -13,17 +13,8 @@ import style from './UserEditForm.module.css';
 function UserEditForm() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { currentUser, onSuccess } = useContext(UserFormsContext);
-	const {
-		username,
-		name,
-		role,
-		active,
-		setUsername,
-		setName,
-		setRole,
-		setActive,
-		isFormInvalid
-	} = useEditForm(currentUser);
+	const { username, name, role, active, dispatchFormValues, isFormInvalid } =
+		useEditForm(currentUser);
 
 	const handleSubmit = async evt => {
 		evt.preventDefault();
@@ -55,7 +46,12 @@ function UserEditForm() {
 					placeholder='John Doe'
 					error={name.error}
 					value={name.value}
-					onChange={evt => setName(evt.target.value)}
+					onChange={evt =>
+						dispatchFormValues({
+							type: 'name_changed',
+							value: evt.target.value
+						})
+					}
 				></InputText>
 				<InputTextAsync
 					className={style.input}
@@ -69,11 +65,25 @@ function UserEditForm() {
 					error={username.error}
 					loading={username.loading}
 					value={username.value}
-					onChange={evt => setUsername(evt.target.value)}
+					onChange={evt =>
+						dispatchFormValues({
+							type: 'username_changed',
+							value: evt.target.value,
+							currentUsername: currentUser.username
+						})
+					}
 				></InputTextAsync>
 			</div>
 			<div className={style.row}>
-				<Select value={role} onChange={evt => setRole(evt.target.value)}>
+				<Select
+					value={role}
+					onChange={evt =>
+						dispatchFormValues({
+							type: 'role_changed',
+							value: evt.target.value
+						})
+					}
+				>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
 					<option value={USER_ROLES.STUDENT}>Alumno</option>
 					<option value={USER_ROLES.OTHER}>Otro</option>
@@ -81,7 +91,12 @@ function UserEditForm() {
 				<div className={style.active}>
 					<InputCheckbox
 						checked={active}
-						onChange={evt => setActive(evt.target.checked)}
+						onChange={evt =>
+							dispatchFormValues({
+								type: 'active_changed',
+								value: evt.target.value
+							})
+						}
 					/>
 					<span>¿Activo?</span>
 				</div>

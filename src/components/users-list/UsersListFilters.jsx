@@ -7,14 +7,7 @@ import InputCheckbox from '../forms/InputCheckbox';
 import InputSearch from '../forms/InputSearch';
 import Select from '../forms/Select';
 import style from './UsersListFilters.module.css';
-function UsersListFilters({
-	search,
-	setSearch,
-	onlyActive,
-	setOnlyActive,
-	sortBy,
-	setSortBy
-}) {
+function UsersListFilters({ search, onlyActive, sortBy, dispatchFilters }) {
 	const { currentForm, setCreateForm } = useContext(UserFormsContext);
 	if (currentForm !== USER_FORMS.FILTERS) return null;
 	return (
@@ -23,11 +16,18 @@ function UsersListFilters({
 				<InputSearch
 					placeholder='Buscar...'
 					value={search}
-					onChange={evt => setSearch(evt.target.value)}
+					onChange={evt =>
+						dispatchFilters({ type: 'search_changed', value: evt.target.value })
+					}
 				/>
 				<Select
 					value={sortBy}
-					onChange={evt => setSortBy(Number(evt.target.value))}
+					onChange={evt =>
+						dispatchFilters({
+							type: 'sort_by_changed',
+							value: Number(evt.target.value)
+						})
+					}
 				>
 					<option value={SORT_OPTIONS.DEFAULT}>Por defecto</option>
 					<option value={SORT_OPTIONS.NAME}>Por nombre</option>
@@ -42,7 +42,12 @@ function UsersListFilters({
 					<InputCheckbox
 						className={style.checkbox}
 						checked={onlyActive}
-						onChange={evt => setOnlyActive(evt.target.checked)}
+						onChange={evt =>
+							dispatchFilters({
+								type: 'only_active_changed',
+								value: evt.target.checked
+							})
+						}
 					/>
 					<p>Mostrar sólo activos</p>
 				</div>

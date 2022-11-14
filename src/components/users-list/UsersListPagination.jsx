@@ -6,16 +6,20 @@ import style from './UsersListPagination.module.css';
 function UsersListPagination({
 	page,
 	itemsPerPage,
-	setPage,
-	setItemsPerPage,
-	totalUsers
+	totalUsers,
+	dispatchFilters
 }) {
 	return (
 		<div className={style.wrapper}>
 			<div className={style.itemsPerPage}>
 				<Select
 					value={itemsPerPage}
-					onChange={evt => setItemsPerPage(Number(evt.target.value))}
+					onChange={evt =>
+						dispatchFilters({
+							type: 'items_per_page_changed',
+							value: Number(evt.target.value)
+						})
+					}
 				>
 					{PAGINATION.ITEMS_PER_PAGE.map(value => (
 						<option key={value} value={value}>
@@ -28,7 +32,9 @@ function UsersListPagination({
 			<PageSelector
 				page={page}
 				totalPages={Math.ceil(totalUsers / itemsPerPage)}
-				setPage={setPage}
+				setPage={newPage =>
+					dispatchFilters({ type: 'page_changed', value: newPage })
+				}
 			/>
 		</div>
 	);
