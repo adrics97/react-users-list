@@ -3,6 +3,7 @@ import { useEditForm } from '../../hooks/useEditForm';
 import { updateUser } from '../../lib/api/usersApi';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
 import Button from '../buttons/Button';
+import { EDIT_FORM_ACTIONS } from '../constants/editFormActions';
 import { USER_ROLES } from '../constants/userRoles';
 import InputCheckbox from '../forms/InputCheckbox';
 import InputText from '../forms/InputText';
@@ -48,7 +49,7 @@ function UserEditForm() {
 					value={name.value}
 					onChange={evt =>
 						dispatchFormValues({
-							type: 'name_changed',
+							type: EDIT_FORM_ACTIONS.NAME,
 							value: evt.target.value
 						})
 					}
@@ -67,7 +68,7 @@ function UserEditForm() {
 					value={username.value}
 					onChange={evt =>
 						dispatchFormValues({
-							type: 'username_changed',
+							type: EDIT_FORM_ACTIONS.USERNAME,
 							value: evt.target.value,
 							currentUsername: currentUser.username
 						})
@@ -79,7 +80,7 @@ function UserEditForm() {
 					value={role}
 					onChange={evt =>
 						dispatchFormValues({
-							type: 'role_changed',
+							type: EDIT_FORM_ACTIONS.ROLE,
 							value: evt.target.value
 						})
 					}
@@ -93,7 +94,7 @@ function UserEditForm() {
 						checked={active}
 						onChange={evt =>
 							dispatchFormValues({
-								type: 'active_changed',
+								type: EDIT_FORM_ACTIONS.ACTIVE,
 								value: evt.target.value
 							})
 						}

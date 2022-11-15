@@ -3,6 +3,7 @@ import { useCreateForm } from '../../hooks/useCreateForm';
 import { createUser } from '../../lib/api/usersApi';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
 import Button from '../buttons/Button';
+import { CREATE_FORM_ACTIONS } from '../constants/createFormActions';
 import { USER_ROLES } from '../constants/userRoles';
 import InputCheckbox from '../forms/InputCheckbox';
 import InputText from '../forms/InputText';
@@ -47,7 +48,7 @@ function UserCreateForm() {
 					value={name.value}
 					onChange={evt =>
 						dispatchFormValues({
-							type: 'name_changed',
+							type: CREATE_FORM_ACTIONS.NAME,
 							value: evt.target.value
 						})
 					}
@@ -62,7 +63,7 @@ function UserCreateForm() {
 					value={username.value}
 					onChange={evt =>
 						dispatchFormValues({
-							type: 'username_changed',
+							type: CREATE_FORM_ACTIONS.USERNAME,
 							value: evt.target.value
 						})
 					}

@@ -1,3 +1,4 @@
+import { FILTERS_ACTION } from '../constants/filtersActions';
 import { PAGINATION } from '../constants/pagination';
 import PageSelector from '../forms/PageSelector';
 import Select from '../forms/Select';
@@ -16,7 +17,7 @@ function UsersListPagination({
 					value={itemsPerPage}
 					onChange={evt =>
 						dispatchFilters({
-							type: 'items_per_page_changed',
+							type: FILTERS_ACTION.ITEMS_PER_PAGE,
 							value: Number(evt.target.value)
 						})
 					}
@@ -33,7 +34,7 @@ function UsersListPagination({
 				page={page}
 				totalPages={Math.ceil(totalUsers / itemsPerPage)}
 				setPage={newPage =>
-					dispatchFilters({ type: 'page_changed', value: newPage })
+					dispatchFilters({ type: FILTERS_ACTION.PAGE, value: newPage })
 				}
 			/>
 		</div>
