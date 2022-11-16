@@ -7,11 +7,11 @@ import UserFormContainer from '../user-forms/UserFormContainer';
 import UserFormProvider from '../providers/UserFormProvider';
 import { useReducer, useState } from 'react';
 import UsersListViewSelector from '../users-list/UsersListViewSelector';
-import { FILTERS_ACTION } from '../constants/filtersActions';
 import {
 	filtersReducer,
 	FILTERS_INITIAL_STATE
 } from '../../lib/reducers/filtersReducer';
+import { reset } from '../../lib/actions/filtersActions';
 
 function UsersList() {
 	const [filters, dispatchFilters] = useReducer(
@@ -25,9 +25,7 @@ function UsersList() {
 	return (
 		<div className={style.wrapper}>
 			<h1 className={style.title}>Listado de usuarios</h1>
-			<UserFormProvider
-				resetFilters={() => dispatchFilters({ type: FILTERS_ACTION.RESET })}
-			>
+			<UserFormProvider resetFilters={() => dispatchFilters(reset())}>
 				<UsersListFilters
 					search={filters.search}
 					onlyActive={filters.onlyActive}

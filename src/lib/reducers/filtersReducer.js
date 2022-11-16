@@ -10,42 +10,42 @@ export const FILTERS_INITIAL_STATE = {
 	itemsPerPage: PAGINATION.DEFAULT_ITEM_PER_PAGE
 };
 
-export const filtersReducer = (state, action) => {
-	switch (action.type) {
+export const filtersReducer = (state, { type, payload }) => {
+	switch (type) {
 		case FILTERS_ACTION.SEARCH:
 			return {
 				...state,
 				page: PAGINATION.DEFAULT_PAGE,
-				search: action.value
+				search: payload
 			};
 		case FILTERS_ACTION.ONLY_ACTIVE: {
 			const newSortBy =
-				action.value && state.sortBy === SORT_OPTIONS.ACTIVE
+				payload && state.sortBy === SORT_OPTIONS.ACTIVE
 					? SORT_OPTIONS.DEFAULT
 					: state.sortBy;
 			return {
 				...state,
 				sortBy: newSortBy,
 				page: 1,
-				onlyActive: action.value
+				onlyActive: payload
 			};
 		}
 		case FILTERS_ACTION.SORT_BY:
 			return {
 				...state,
 				page: PAGINATION.DEFAULT_PAGE,
-				sortBy: action.value
+				sortBy: payload
 			};
 		case FILTERS_ACTION.PAGE:
 			return {
 				...state,
-				page: action.value
+				page: payload
 			};
 		case FILTERS_ACTION.ITEMS_PER_PAGE:
 			return {
 				...state,
 				page: PAGINATION.DEFAULT_PAGE,
-				itemsPerPage: action.value
+				itemsPerPage: payload
 			};
 		case FILTERS_ACTION.RESET:
 			return { ...FILTERS_INITIAL_STATE };

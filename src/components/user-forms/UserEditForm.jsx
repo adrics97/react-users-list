@@ -1,9 +1,14 @@
 import { useContext, useState } from 'react';
 import { useEditForm } from '../../hooks/useEditForm';
+import {
+	activeChanged,
+	nameChanged,
+	roleChanged,
+	usernameChanged
+} from '../../lib/actions/editFormActions';
 import { updateUser } from '../../lib/api/usersApi';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
 import Button from '../buttons/Button';
-import { EDIT_FORM_ACTIONS } from '../constants/editFormActions';
 import { USER_ROLES } from '../constants/userRoles';
 import InputCheckbox from '../forms/InputCheckbox';
 import InputText from '../forms/InputText';
@@ -47,12 +52,7 @@ function UserEditForm() {
 					placeholder='John Doe'
 					error={name.error}
 					value={name.value}
-					onChange={evt =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.NAME,
-							value: evt.target.value
-						})
-					}
+					onChange={evt => dispatchFormValues(nameChanged(evt.target.value))}
 				></InputText>
 				<InputTextAsync
 					className={style.input}
@@ -67,23 +67,16 @@ function UserEditForm() {
 					loading={username.loading}
 					value={username.value}
 					onChange={evt =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.USERNAME,
-							value: evt.target.value,
-							currentUsername: currentUser.username
-						})
+						dispatchFormValues(
+							usernameChanged(evt.target.value, currentUser.username)
+						)
 					}
 				></InputTextAsync>
 			</div>
 			<div className={style.row}>
 				<Select
 					value={role}
-					onChange={evt =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.ROLE,
-							value: evt.target.value
-						})
-					}
+					onChange={evt => dispatchFormValues(roleChanged(evt.target.value))}
 				>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
 					<option value={USER_ROLES.STUDENT}>Alumno</option>
@@ -93,10 +86,7 @@ function UserEditForm() {
 					<InputCheckbox
 						checked={active}
 						onChange={evt =>
-							dispatchFormValues({
-								type: EDIT_FORM_ACTIONS.ACTIVE,
-								value: evt.target.value
-							})
+							dispatchFormValues(activeChanged(evt.target.checked))
 						}
 					/>
 					<span>¿Activo?</span>
