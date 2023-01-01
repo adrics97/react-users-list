@@ -25,6 +25,7 @@ module.exports = {
 	plugins: ['react'],
 	rules: {
 		'react/prop-types': 'off',
+		'react/display-name': 'off',
 		'no-use-before-define': 'error',
 		'func-names': ['error', 'as-needed'],
 		'vars-on-top': 'off',
