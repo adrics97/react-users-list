@@ -11,6 +11,7 @@ import {
 } from '../../lib/reducers/filtersReducer';
 import { reset } from '../../lib/actions/filtersActions';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
+import AlertBox from '../alerts/AlertBox';
 
 function UsersList() {
 	const [filters, dispatchFilters] = useReducer(
@@ -24,6 +25,7 @@ function UsersList() {
 	return (
 		<div className={style.wrapper}>
 			<h1 className={style.title}>Listado de usuarios</h1>
+			<AlertBox />
 			<UserFormsContext.Provider
 				value={{ onSuccess: () => dispatchFilters(reset()) }}
 			>

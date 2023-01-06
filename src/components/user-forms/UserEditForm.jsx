@@ -8,6 +8,7 @@ import {
 } from '../../lib/actions/editFormActions';
 import { updateUser } from '../../lib/api/usersApi';
 import { UserFormsContext } from '../../lib/contexts/UsersFormContext';
+import { alertBox } from '../../lib/events/alertEvents';
 import Button from '../buttons/Button';
 import { USER_ROLES } from '../constants/userRoles';
 import InputCheckbox from '../forms/InputCheckbox';
@@ -38,10 +39,11 @@ function UserEditForm({ currentUser, closeModal }) {
 		const success = await updateUser(editUser);
 		if (success) {
 			onSuccess();
-			closeModal();
+			alertBox.success('Usuario modificado con éxito ');
 		} else {
-			setIsSubmitting(false);
+			alertBox.error('Error al modificar al usuario');
 		}
+		closeModal();
 	};
 
 	return (
