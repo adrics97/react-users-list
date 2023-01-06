@@ -1,13 +1,6 @@
 {
   "users": [
     {
-      "id": "1a751902-cad9-420b-bffa-a664b2616bf7",
-      "username": "arizzi1",
-      "name": "Alikee Rizzi",
-      "active": true,
-      "role": "other"
-    },
-    {
       "id": "d4150eee-37d8-4a18-8e9d-fd9837b65fbe",
       "username": "cbrigham2",
       "name": "Carmella Brigham",
@@ -167,6 +160,13 @@
       "role": "teacher",
       "active": false,
       "id": "OpXTCBV"
+    },
+    {
+      "name": "dfssdgfdsg",
+      "username": "fsdfgsdg",
+      "role": "student",
+      "active": true,
+      "id": "7OePvgj"
     }
   ]
 }
