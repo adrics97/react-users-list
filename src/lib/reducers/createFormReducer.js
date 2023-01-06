@@ -29,14 +29,14 @@ export const createFormReducer = (state, { type, payload }) => {
 			};
 		}
 		case CREATE_FORM_ACTIONS.USERNAME_ERROR:
-			return state => ({
+			return {
 				...state,
 				username: {
 					value: state.username.value,
 					error: payload,
 					loading: false
 				}
-			});
+			};
 		default:
 			throw new Error('Invalid action type');
 	}
