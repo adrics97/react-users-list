@@ -9,7 +9,11 @@ function UserRow({ user }) {
 	return (
 		<div className={style.wrapper}>
 			<div className={style.name}>
-				<UserDisplay name={user.name} username={user.username} />
+				<UserDisplay
+					name={user.name}
+					username={user.username}
+					picture={user.picture}
+				/>
 			</div>
 			<div className={style.status}>
 				<UserStatus active={user.active} />
