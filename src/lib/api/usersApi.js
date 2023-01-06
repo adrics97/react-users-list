@@ -30,6 +30,21 @@ export const updateUser = async user => {
 	}
 };
 
+export const updateUserPic = async (userId, picture) => {
+	try {
+		const res = await fetch(`http://localhost:4000/users/${userId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-type': 'application/json'
+			},
+			body: JSON.stringify({ picture })
+		});
+		return res.ok;
+	} catch (err) {
+		return false;
+	}
+};
+
 export const deleteUserById = async userId => {
 	try {
 		const res = await fetch(`http://localhost:4000/users/${userId}`, {
